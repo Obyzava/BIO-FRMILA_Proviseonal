@@ -114,9 +114,9 @@
     <!-- Музыкальный плеер -->
     <div class="music-player">
         <button onclick="prevTrack()">⇄</button>
-        <button onclick="togglePlay()">◀</button>
+        <button onclick="togglePlay()" id="play-pause-btn">◀</button>
         <button onclick="nextTrack()">▶</button>
-        <button onclick="toggleLoop()">↻</button>
+        <button onclick="toggleLoop()" id="loop-btn">↻</button>
     </div>
 
     <script>
@@ -150,17 +150,20 @@
         ];
 
         let currentTrack = 0;
-        const audio = new Audio(tracks[currentTrack]);
+        const audio = new Audio();
         let isPlaying = false;
         let isLooping = false;
+
+        // Загружаем первый трек
+        audio.src = tracks[currentTrack];
 
         function togglePlay() {
             if (isPlaying) {
                 audio.pause();
-                document.querySelector('.music-player button:nth-child(2)').textContent = '◀';
+                document.getElementById('play-pause-btn').textContent = '◀';
             } else {
                 audio.play();
-                document.querySelector('.music-player button:nth-child(2)').textContent = '𓊕';
+                document.getElementById('play-pause-btn').textContent = '𓊕';
             }
             isPlaying = !isPlaying;
         }
@@ -180,7 +183,7 @@
         function toggleLoop() {
             isLooping = !isLooping;
             audio.loop = isLooping;
-            document.querySelector('.music-player button:nth-child(4)').style.color = isLooping ? '#ffffff' : '#ff0000';
+            document.getElementById('loop-btn').style.color = isLooping ? '#ffffff' : '#ff0000';
         }
 
         audio.addEventListener('ended', () => {
