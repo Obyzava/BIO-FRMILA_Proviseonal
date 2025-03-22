@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRMILA_Proviseonal - Кровавый стиль</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+            color: #ff0000;
+            text-align: center;
+        }
+        /* Фоновое GIF-изображение */
+        .blood-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media1.tenor.com/m/nxsRKajXntoAAAAd/kaneki-ken.gif') no-repeat center center/cover;
+            z-index: -1;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 3rem;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            margin-top: 20px;
+        }
+        a {
+            color: #ff0000;
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 10px;
+            padding: 10px 20px;
+            border: 2px solid #ff0000;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        a:hover {
+            background-color: #ff0000;
+            color: #1a1a1a;
+            text-shadow: 0 0 10px #1a1a1a;
+        }
+        /* Кнопка переключения языка */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+        }
+        .language-switcher button {
+            background-color: #ff0000;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .language-switcher button:hover {
+            background-color: #1a1a1a;
+            color: #ff0000;
+        }
+        /* Музыкальный плеер */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+        .music-player button {
+            background-color: transparent;
+            border: none;
+            color: #ff0000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .music-player button:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="blood-background"></div>
+    <div class="language-switcher">
+        <button onclick="toggleLanguage()">EN/RU</button>
+    </div>
+    <div class="container">
+        <h1 id="title">🩸 FRMILA_Proviseonal 🩸</h1>
+        <a id="roblox-link" href="https://www.roblox.com/users/8041021537/profile" target="_blank">🎮 Roblox</a>
+        <a id="telegram-link" href="https://t.me/FRMILA_Proviseonal" target="_blank">📢 Telegram-канал</a>
+    </div>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player">
+        <button onclick="prevTrack()">⇄</button>
+        <button onclick="togglePlay()">◀</button>
+        <button onclick="nextTrack()">▶</button>
+        <button onclick="toggleLoop()">↻</button>
+    </div>
+
+    <script>
+        let isRussian = true;
+
+        function toggleLanguage() {
+            const title = document.getElementById('title');
+            const robloxLink = document.getElementById('roblox-link');
+            const telegramLink = document.getElementById('telegram-link');
+
+            if (isRussian) {
+                // Переключение на английский
+                title.textContent = '🩸 FRMILA_Proviseonal 🩸';
+                robloxLink.textContent = '🎮 Roblox';
+                telegramLink.textContent = '📢 Telegram Channel';
+            } else {
+                // Переключение на русский
+                title.textContent = '🩸 FRMILA_Proviseonal 🩸';
+                robloxLink.textContent = '🎮 Roblox';
+                telegramLink.textContent = '📢 Telegram-канал';
+            }
+            isRussian = !isRussian;
+        }
+
+        // Музыкальный плеер
+        const tracks = [
+            "0010 - ЗоХа - Живой [audiovk.com].mp3",
+            "011 - Edgar Minasyan - The thing is [audiovk.com].mp3",
+            "3dolora - Бабушка думает я умру (Sped Up + Reverb) [audiovk.com].mp3",
+            "диссоциативное расстрой - лег в рехаб - speed up [audiovk.com].mp3"
+        ];
+
+        let currentTrack = 0;
+        const audio = new Audio(tracks[currentTrack]);
+        let isPlaying = false;
+        let isLooping = false;
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                document.querySelector('.music-player button:nth-child(2)').textContent = '◀';
+            } else {
+                audio.play();
+                document.querySelector('.music-player button:nth-child(2)').textContent = '𓊕';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % tracks.length;
+            audio.src = tracks[currentTrack];
+            if (isPlaying) audio.play();
+        }
+
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+            audio.src = tracks[currentTrack];
+            if (isPlaying) audio.play();
+        }
+
+        function toggleLoop() {
+            isLooping = !isLooping;
+            audio.loop = isLooping;
+            document.querySelector('.music-player button:nth-child(4)').style.color = isLooping ? '#ffffff' : '#ff0000';
+        }
+
+        audio.addEventListener('ended', () => {
+            if (!isLooping) nextTrack();
+        });
+    </script>
+</body>
+</html>
